@@ -6,7 +6,17 @@
 
 ## Getting Started
 
-- Pythonを3.8.xにアップデートする
+- Raspberry PIで、予め必要なpythonライブラリをインストールしておく。
+  ```sh
+  sudo apt-get install python3-numpy
+  sudo apt-get install python3-imaging
+  sudo apt-get install python3-pandas
+  sudo apt-get install python3-matplotlib
+  sudo apt-get install libopencv-dev
+  sudo apt-get install python3-opencv
+  sudo apt-get install libportaudio2
+  ```
+
 - ライブラリをインストールする
   ```sh
   python -m pip install -r requirement.txt
@@ -25,6 +35,10 @@
   ```sh
   uvicorn main:app --reload
   ```
+- Raspberry PIで動かす場合、他の端末からリクエストを受けられるように`--host`を設定する。
+  ```sh
+  uvicorn main:app --host 0.0.0.0
+  ```
 
 
 ## 使用しているライブラリ、構成など
@@ -35,6 +49,7 @@ Raspberry PI Zeroに、REST APIを受けるサーバーを構成している。R
 - [iOS Style Switches For Bootstrap 4 – Custom Switch](https://www.cssscript.com/ios-style-switches-bootstrap-4/)
 
 ### サーバー側
+- Python 3.7.3
 - [FastAPI](https://fastapi.tiangolo.com/) - PythonでRESTを実装
 - [gpiozero](https://gpiozero.readthedocs.io/en/stable/index.html) - Raspberry PIのGPIOを操作するライブラリ
 - [tkgpio](https://github.com/wallysalami/tkgpio) - gpiozeroをMock化してUIでシミュ-レートしてくれるツール

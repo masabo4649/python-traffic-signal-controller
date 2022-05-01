@@ -1,4 +1,3 @@
-from tkgpio import TkCircuit
 from time import sleep
 import json
 from threading import Thread, Timer
@@ -9,9 +8,10 @@ config = configparser.ConfigParser()
 config.read('config.properties')
 mock = config.get("mode", "mock")
 
-if mock:
+if mock == False:
 
     # initialize the circuit inside the GUI
+    from tkgpio import TkCircuit
 
     configuration = {
         "width": 400,
@@ -53,7 +53,7 @@ def aux():
         handler.toggle_red()
         sleep(10)
 
-if mock:
+if mock == False:
 
     # 直接起動した場合
     if __name__ == '__main__':
