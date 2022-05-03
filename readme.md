@@ -40,6 +40,36 @@
   uvicorn main:app --host 0.0.0.0
   ```
 
+### uvicornをサービス化する
+Raspberry PIを起動時に自動的に`uvicorn`をスタートさせるには、以下を行う。
+
+`sudo vi /lib/systemd/system/uvicorn.service`でファイルを編集する。 `WorkingDirectory`と`ExecStart`のパスは実際の環境に合わせて変えること。
+
+```properties
+[Unit]
+Description=uvicorn server
+StartLimitIntervalSec=10s
+StartLimitBurst=5
+
+[Service]
+WorkingDirectory = /home/pi/workspace/python-traffic-signal-controller
+ExecStart=/home/pi/.local/bin/uvicorn main:app --host 0.0.0.0 main:app
+Restart=on-failure
+RestartSec=5s
+Type=simple
+User=pi
+Group=pi
+
+[Install]
+WantedBy=multi-user.target
+```
+サービスを有効化して、開始する。
+```sh
+sudo systemctl enable uvicorn
+sudo systemctl start uvicorn
+```
+
+
 
 ## 使用しているライブラリ、構成など
 Raspberry PI Zeroに、REST APIを受けるサーバーを構成している。RESTで受けたリクエストによってGPIOの入出力を実行している。クライアント側はSPAのページからRESTリクエストを投げて、ボタン押下などのステータスの更新や、サーバー側で動いたステータスの同期をしている。
